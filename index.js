@@ -172,6 +172,21 @@ const deleteTask = (id) => {
   console.log(`Task ${id} deleted successfully`);
 };
 
+const listTasks = () => {
+  const tasks = readTasks();
+  if (tasks.length === 0) {
+    console.log('No tasks found.');
+    return;
+  }
+
+  console.log('\n===== Tasks =====');
+  tasks.forEach(task => {
+    console.log(`ID: ${task.id} | Status: ${task.status} | Description: ${task.description}`);
+    console.log(`Created: ${new Date(task.createdAt).toLocaleString()} | Updated: ${new Date(task.updatedAt).toLocaleString()}`);
+    console.log('---------------');
+  });
+};
+
 // CLI command handling
 const main = () => {
   try {
@@ -187,8 +202,11 @@ const main = () => {
       case 'delete':
         deleteTask(args[0]);
         break;
+      case 'list':
+        listTasks();
+        break;
       default:
-        console.log('Available commands: add <description>, update <id> <status>, delete <id>');
+        console.log('Available commands: add <description>, update <id> <status>, delete <id>, list');
     }
   } catch (error) {
     console.error('Error:', error.message);
@@ -198,4 +216,4 @@ const main = () => {
 
 main();
 
-export { readTasks, addTask, updateTaskStatus, deleteTask };
+export { readTasks, addTask, updateTaskStatus, deleteTask, listTasks };

@@ -7,6 +7,7 @@ Task Tracker CLI is a simple command-line application for managing tasks. It all
 - Add tasks with descriptions.
 - Update task statuses (e.g., `todo`, `in-progress`, `done`).
 - Delete tasks by ID.
+- List all tasks with details.
 - Automatically generates unique task IDs.
 - Validates and sanitizes task descriptions.
 - Handles corrupted or invalid task data gracefully.
@@ -51,8 +52,21 @@ node index.js <command> [arguments]
   node index.js delete <task-id>
   ```
 
-- **View tasks:**
-  Open the `tasks.json` file in the project directory to view all tasks.
+- **List all tasks:**
+  ```bash
+  node index.js list
+  ```
+  Displays all tasks with their IDs, statuses, descriptions, creation dates, and update dates.
+
+### Demo Data Generation
+
+You can quickly create 10 dummy tasks for testing purposes using the included script:
+
+```bash
+node taskManager.js
+```
+
+This will create a set of 10 tasks with various descriptions and statuses (todo, in-progress, and done) and then list them all.
 
 ## Testing
 
@@ -68,12 +82,15 @@ The tests are located in the `test/index.test.js` file and cover the following a
 - Task operations (e.g., adding, deleting, updating tasks).
 - Data integrity and validation.
 - Task status management.
+- Task listing functionality.
 
 ## Project Structure
 
 ```
 index.js          # Main application logic
 package.json      # Project metadata and dependencies
+README.md         # This documentation file
+taskManager.js    # Script for generating demo tasks
 test/             # Test suite
   index.test.js   # Unit tests for the application
 ```

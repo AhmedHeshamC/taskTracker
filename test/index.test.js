@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import fs from 'fs';
 import path from 'path';
-import { readTasks, addTask, deleteTask, updateTaskStatus } from '../index.js';
+import sinon from 'sinon';
+import { readTasks, addTask, deleteTask, updateTaskStatus, listTasks } from '../index.js';
 
 const DATA_FILE = path.join(process.cwd(), 'tasks.json');
 
@@ -173,6 +174,73 @@ describe('Task Manager Core Functionality', () => {
       }
       const [task] = readTasks();
       expect(task.status).to.be.oneOf(['in-progress', 'done']);
+    });
+  });
+
+  describe('Task Listing', () => {
+    let consoleLogStub;
+    
+    beforeEach(() => {
+      // Stub console.log to avoid cluttering test output and to allow assertions
+      consoleLogStub = sinon.stub(console, 'log');
+    });
+    
+    afterEach(() => {
+      // Restore the original console.log
+      consoleLogStub.restore();
+    });
+    
+    it('should display message when no tasks exist', () => {
+      // Ensure no tasks exist
+      if (fs.existsSync(DATA_FILE)) {
+        fs.unlinkSync(DATA_FILE);
+      }
+      
+      listTasks();
+      
+      expect(consoleLogStub.calledWith('No tasks found.')).to.be.true;
+    });
+    
+    it('should list all tasks with correct formatting', () => {
+      // Add some test tasks
+      addTask('First test task');
+      addTask('Second test task');
+      
+      // Reset the stub to clear previous calls
+      consoleLogStub.resetHistory();
+      
+      // Call the function to test
+      listTasks();
+      
+      // Verify header was printed
+      expect(consoleLogStub.calledWith('\n===== Tasks =====')).to.be.true;
+      
+      // Verify task details were printed
+      expect(consoleLogStub.calledWithMatch(/ID: 1 \| Status: todo \| Description: First test task/)).to.be.true;
+      expect(consoleLogStub.calledWithMatch(/ID: 2 \| Status: todo \| Description: Second test task/)).to.be.true;
+      
+      // Verify separator was printed
+      expect(consoleLogStub.calledWith('---------------')).to.be.true;
+    });
+    
+    it('should show updated task statuses in the listing', () => {
+      // Reset tasks
+      if (fs.existsSync(DATA_FILE)) {
+        fs.unlinkSync(DATA_FILE);
+      }
+      
+      // Add and update a task
+      addTask('Task to update');
+      updateTaskStatus(1, 'in-progress');
+      
+      // Reset the stub
+      consoleLogStub.resetHistory();
+      
+      // List tasks
+      listTasks();
+      
+      // Verify the updated status is shown
+      expect(consoleLogStub.calledWithMatch(/ID: 1 \| Status: in-progress \| Description: Task to update/)).to.be.true;
     });
   });
 });
