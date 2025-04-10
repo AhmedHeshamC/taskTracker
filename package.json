@@ -1,0 +1,19 @@
+{
+  "name": "task-tracker",
+  "version": "1.0.0",
+  "description": "A simple task tracker CLI application",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": ["task", "tracker", "CLI"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.7"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  },
+  "type": "module"
+}
