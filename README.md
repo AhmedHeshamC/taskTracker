@@ -101,10 +101,20 @@ test/             # Test suite
 - File operations are restricted to the project directory to prevent unauthorized access.
 - Task data is validated to ensure consistency and integrity.
 
-## License
-
-This project is licensed under the ISC License.
 
 ## Project URLs
-https://roadmap.sh/projects/task-tracker
-https://github.com/AhmedHeshamC/taskTracker
+- https://roadmap.sh/projects/task-tracker
+- https://github.com/AhmedHeshamC/taskTracker
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch
+3. Write tests
+4. Submit a PR
+
+Please adhere to the existing code style and coverage requirements.
+
+---
+
+© 2025 Ahmed Hesham. MIT License.
